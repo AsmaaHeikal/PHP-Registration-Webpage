@@ -15,7 +15,7 @@
 
                .page-body {
                    width: 50%;
-                   margin: 0 auto;
+                   margin: 70 auto;
                    padding: 20px;
                    background-color: #EEEEEE;
                    border-radius: 30px;
