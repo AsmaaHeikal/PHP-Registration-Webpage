@@ -9,20 +9,24 @@
         header {
             background-color: #31363F;
             color: #ffffff;
-            padding: 5px 10px;
-
+            padding: 5px 20px;
+            width: 100%;
+            height: 70px;
         }
 
 
         header nav {
-            margin-left: 900px;
-            /* Add some space between the links and the edge of the header */
+            margin-left: 700px;
         }
-
+        header h1, header nav {
+            display: inline-block; /* Set both h1 and nav to inline-block */
+            vertical-align: middle; /* Align them vertically */
+        }
         header nav a {
             color: #ffffff;
             text-decoration: none;
             margin-left: 50px;
+            font-size: large;
             /* Add some space between the links */
         }
     </style>
