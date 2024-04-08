@@ -36,8 +36,8 @@
     <header>
         <h1>FCAI CU</h1>
         <nav>
-            <a href="home.php">Home</a>
-            <a href="login.php">Login</a>
-            <a href="about.php">About</a>
+            <a href="index.php">Home</a>
+            <a href="index.php">Login</a>
+            <a href="index.php">About</a>
         </nav>
     </header>
