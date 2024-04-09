@@ -97,6 +97,8 @@
 
        <body>
            <?php include 'Header.php'; ?>
+           <?php include 'DB_Ops.php'; ?>
+
            <section class="page-body">
                <div class="title">
                    <h1> Registration Form </h1>
