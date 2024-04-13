@@ -2,7 +2,7 @@
 $server = "localhost";
 $username = "root";
 $password = "";
-$database = "registerationdb";
+$database = "registrationdb";
 
 $conn = mysqli_connect($server, $username, $password) or die("Couldn't connect to server" . mysqli_error($conn));
 mysqli_select_db($conn, $database) or die("Couldn't select database" . mysqli_error($conn));
