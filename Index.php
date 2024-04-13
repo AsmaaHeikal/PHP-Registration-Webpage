@@ -1,3 +1,6 @@
+   <?php
+    include 'API_Ops.php';
+    ?>
    <! Doctype html>
        <html lang="en">
 
@@ -65,6 +68,15 @@
                    color: #222831;
                }
 
+               input[type="date"] {
+                   width: calc(82% - 16px);
+                   padding: 8px;
+                   border: 1px solid #ddd;
+                   border-radius: 10px;
+                   box-sizing: border-box;
+                   color: #222831;
+               }
+
                input[type="file"] {
                    padding: 8px;
                }
@@ -83,7 +95,8 @@
                }
 
                input[type="submit"]:hover,
-               input[type="reset"]:hover {
+               input[type="reset"]:hover,
+               button[id="checkActors"]:hover {
                    opacity: 80%;
                }
 
@@ -92,12 +105,23 @@
                        width: 90%;
                    }
                }
+
+               button[id="checkActors"] {
+                   padding: 8px;
+                   background-color: #31363F;
+                   color: #fff;
+                   border: none;
+                   border-radius: 10px;
+                   cursor: pointer;
+                   transition: background-color 0.3s;
+                   margin-top: 10px;
+                   font-size: medium;
+               }
            </style>
        </head>
 
        <body>
            <?php include 'Header.php'; ?>
-           <?php include 'DB_Ops.php'; ?>
 
            <section class="page-body">
                <div class="title">
@@ -123,55 +147,33 @@
                        <tr>
                            <td> <b> Birthdate </b> </td>
                            <td>
-                               <select name="mm">
-                                   <option value=""> Month </option>
-                                   <?php
-                                    for ($i = 1; $i <= 12; $i++) {
-                                        echo "<option value ='$i'>" . $i . "</option>";
-                                    }
-                                    ?>
-                               </select>
-                               <select name="dd">
-                                   <option value=""> Date </option>
-                                   <?php
-                                    for ($i = 1; $i <= 31; $i++) {
-                                        echo "<option value ='$i'>" . $i . "</option>";
-                                    }
-                                    ?>
-                               </select>
-                               <select name="yy">
-                                   <option value=""> Year </option>
-                                   <?php
-                                    for ($i = 1900; $i <= 2015; $i++) {
-                                        echo "<option value ='$i'>" . $i . "</option>";
-                                    }
-                                    ?>
-                               </select>
+                               <input type="date" name="birthdate" min='1899-01-01' max='2005-12-31' required />
+                               <button type="button" id="checkActors">check</button>
                            </td>
                        </tr>
                        <tr>
                            <td> <b> Phone Number </b> </td>
-                           <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number"> </td>
+                           <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number" required /> </td>
                        </tr>
                        <tr>
                            <td> <b> Address </b> </td>
-                           <td> <textarea name="add">  Enter your address </textarea> </td>
+                           <td> <textarea name="add" placeholder="Enter your address" required></textarea> </td>
                        </tr>
                        <tr>
                            <td> <b> Password </b> </td>
-                           <td> <input type="password" name="p" / placeholder=" Enter password"> </td>
+                           <td> <input type="password" name="p" / placeholder=" Enter password" required> </td>
                        </tr>
                        <tr>
                            <td> <b> Confirm Password </b> </td>
-                           <td> <input type="password" name="p" / placeholder=" Confirm password"> </td>
+                           <td> <input type="password" name="p" / placeholder=" Confirm password" required> </td>
                        </tr>
                        <tr>
                            <td> <b> Profile Picture </b> </td>
-                           <td> <input type="file" name="pic" /> </td>
+                           <td> <input type="file" name="pic" required /> </td>
                        </tr>
                        <tr>
                            <td> <b> Email </b> </td>
-                           <td> <input type="email" name="e" / placeholder="Enter your email"> </td>
+                           <td> <input type="email" name="e" / placeholder="Enter your email" required /> </td>
                        </tr>
                        <tr>
                            <td colspan="2" align="center">
@@ -181,12 +183,31 @@
                        </tr>
                    </table>
                </form>
+               <div id="actorDetails"></div>
            </section>
-            <?php include 'Footer.php'; ?>
+           <?php include 'Footer.php'; ?>
+           <script>
+               document.getElementById('checkActors').addEventListener('click', function() {
+                   var birthdate = document.getElementsByName('birthdate')[0].value;
+                   if (birthdate) {
+                       var xhr = new XMLHttpRequest();
+                       xhr.open('POST', 'API_Ops.php', true);
+                       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                       xhr.onreadystatechange = function() {
+                           if (xhr.readyState === XMLHttpRequest.DONE) {
+                               if (xhr.status === 200) {
+                                   document.getElementById('actorDetails').innerHTML = xhr.responseText;
+                               } else {
+                                   console.error('Error:', xhr.statusText);
+                               }
+                           }
+                       };
+                       xhr.send('birthdate=' + birthdate);
+                   } else {
+                       console.error('Birthdate is required.');
+                   }
+               });
+           </script>
        </body>
 
        </html>
-       <?php
-
-
-        ?>
