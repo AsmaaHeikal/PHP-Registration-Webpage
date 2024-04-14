@@ -1,4 +1,6 @@
    <?php
+    include 'DB_Ops.php';
+    include 'Upload.php';
     include 'API_Ops.php';
     ?>
    <! Doctype html>
@@ -117,7 +119,17 @@
                    margin-top: 10px;
                    font-size: medium;
                }
+               .error {
+                color: #af4242;
+                background-color : #fde8ec;
+                display: none;
+               }
            </style>
+           <?php
+           if($pic_error != null){
+            ?> <style>.pic-error {display: block}</style> <?php
+           }
+           ?>
        </head>
 
        <body>
@@ -170,6 +182,9 @@
                        <tr>
                            <td> <b> Profile Picture </b> </td>
                            <td> <input type="file" name="pic" required /> </td>
+                           <td> <p class= "error pic-error"> 
+                            <?php echo $pic_error ?>
+                           </p> </td>
                        </tr>
                        <tr>
                            <td> <b> Email </b> </td>
