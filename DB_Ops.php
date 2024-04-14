@@ -1,4 +1,6 @@
 <?php
+include 'Upload.php';
+
 // User class
 class User
 {
@@ -9,9 +11,9 @@ class User
     public $address;
     public $password;
     public $email;
-   // public $profile_picture;
 
-    public function __construct($full_name, $username, $birthdate, $phone_number, $address, $password, $email)//, $profile_picture)
+
+    public function __construct($full_name, $username, $birthdate, $phone_number, $address, $password, $email, $fileNameNew)
     {
         $this->full_name = $full_name;
         $this->username = $username;
@@ -20,7 +22,7 @@ class User
         $this->address = $address;
         $this->password = $password;
         $this->email = $email;
-        // $this->profile_picture = $profile_picture;
+        $this->img_Name = $fileNameNew;
     }
 }
 
@@ -59,7 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone_number = $_POST['m'];
     $address = $_POST['add'];
     $password = $_POST['p'];
-    // $profile_picture = $_POST['pic'];
     $email = $_POST['e'];
 
     // Check if the username already exists
@@ -75,11 +76,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // The username doesn't exist
     else {
 
-        $user = new User($full_name, $username, $birthdate, $phone_number, $address, $password, $email);//, $profile_picture);
+        $user = new User($full_name, $username, $birthdate, $phone_number, $address, $password, $email, $fileNameNew);
 
         // Insert user data into the database
-        $insert_query = "INSERT INTO users (full_name, user_name, password, phone, address, birthdate, email)
-            VALUES ('$user->full_name', '$user->username', '$user->password', '$user->phone_number', '$user->address', '$user->birthdate', '$user->email')";//, '$user->profile_picture')";
+        $insert_query = "INSERT INTO users (full_name, user_name, password, phone, address, birthdate, email, img_Name)
+            VALUES ('$user->full_name', '$user->username', '$user->password', '$user->phone_number', '$user->address', '$user->birthdate', '$user->email', '$user->img_Name')";
         
         if (mysqli_query($conn, $insert_query)) {
             $msg = "Registration successful!";
