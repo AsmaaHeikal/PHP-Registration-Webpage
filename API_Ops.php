@@ -30,8 +30,8 @@ function getActorDetails($actorId)
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => [
-            "X-RapidAPI-Host: imdb8.p.rapidapi.com",
-            "X-RapidAPI-Key: 9b15487c95msh7e88ddbf1911757p156155jsnfffc48511d43"
+            "X-RapidAPI-Host: ",
+            "X-RapidAPI-Key: "
         ],
     ]);
 
@@ -80,8 +80,8 @@ if (isset($_POST['birthdate'])) {
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => [
-            "X-RapidAPI-Host: imdb8.p.rapidapi.com",
-            "X-RapidAPI-Key: 9b15487c95msh7e88ddbf1911757p156155jsnfffc48511d43"
+            "X-RapidAPI-Host: ",
+            "X-RapidAPI-Key: "
         ],
     ]);
     // Execute the request and fetch the response
