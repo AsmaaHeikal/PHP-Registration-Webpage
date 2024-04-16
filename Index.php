@@ -1,4 +1,4 @@
-   <?php
+<?php
     include 'DB_Ops.php';
     include 'Upload.php';
     include 'API_Ops.php';
@@ -68,6 +68,7 @@
                    border-radius: 10px;
                    box-sizing: border-box;
                    color: #222831;
+                   
                }
 
                input[type="date"] {
@@ -124,6 +125,17 @@
                 background-color : #fde8ec;
                 display: none;
                }
+               .form-message {
+                display: none; 
+                background-color: #ffcccc; 
+                color: #990000; 
+                padding: 10px; 
+                border-radius: 5px; 
+                margin-top: 10px; 
+                border: 1px solid #ff3333; 
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+            }
+
            </style>
            <?php
            if($pic_error != null){
@@ -139,60 +151,61 @@
                <div class="title">
                    <h1> Registration Form </h1>
                </div>
-               <form method="post" enctype="multipart/form-data" action=?#?>
+               <form method="post" enctype="multipart/form-data" action="#" id="form">
                    <table>
                        <tr>
                            <td colspan="2"> <?php echo @$msg; ?> </td>
                        </tr>
+                       <div class="form-message" ></div>
                        <tr>
-                           <td width="159"> <b> Full Name </b> </td>
+                           <td width="159"> <b> Full Name <span style="color:red"> * </span></b> </td>
                            <td width="218">
-                               <input type="text" placeholder="Enter your full name" name="n" pattern="[a-z A-Z]*" required />
+                               <input type="text" placeholder="Enter your full name" name="n" pattern="[a-z A-Z]*"  />
                            </td>
                        </tr>
                        <tr>
-                           <td width="159"> <b> Username </b> </td>
+                           <td width="159"> <b> Username <span style="color:red"> * </span> </b> </td>
                            <td width="218">
-                               <input type="text" placeholder="Enter your username" name="u" pattern="[a-z A-Z]*" required />
+                               <input type="text" placeholder="Enter your username" name="u" pattern="[a-z A-Z]*"  />
                            </td>
                        </tr>
                        <tr>
-                           <td> <b> Birthdate </b> </td>
+                           <td> <b> Birthdate <span style="color:red"> * </span></b> </td>
                            <td>
-                               <input type="date" name="birthdate" min='1899-01-01' max='2005-12-31' required />
+                               <input type="date" name="birthdate" min='1899-01-01' max='2005-12-31'  />
                                <button type="button" id="checkActors">check</button>
                            </td>
                        </tr>
                        <tr>
-                           <td> <b> Phone Number </b> </td>
-                           <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number" required /> </td>
+                           <td> <b> Phone Number <span style="color:red"> * </span></b> </td>
+                           <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number"  /> </td>
                        </tr>
                        <tr>
                            <td> <b> Address </b> </td>
-                           <td> <textarea name="add" placeholder="Enter your address" required></textarea> </td>
+                           <td> <textarea name="add" placeholder="Enter your address" ></textarea> </td>
                        </tr>
                        <tr>
-                           <td> <b> Password </b> </td>
-                           <td> <input type="password" name="p" / placeholder=" Enter password" required> </td>
+                           <td> <b> Password <span style="color:red"> * </span></b> </td>
+                           <td> <input type="password" name="p" / placeholder=" Enter password" > </td>
                        </tr>
                        <tr>
-                           <td> <b> Confirm Password </b> </td>
-                           <td> <input type="password" name="p" / placeholder=" Confirm password" required> </td>
+                           <td> <b> Confirm Password <span style="color:red"> * </span></b> </td>
+                           <td> <input type="password" name="cp" / placeholder=" Confirm password" > </td>
                        </tr>
                        <tr>
                            <td> <b> Profile Picture </b> </td>
-                           <td> <input type="file" name="pic" required /> </td>
+                           <td> <input type="file" name="pic"  /> </td>
                            <td> <p class= "error pic-error"> 
                             <?php echo $pic_error ?>
                            </p> </td>
                        </tr>
                        <tr>
-                           <td> <b> Email </b> </td>
-                           <td> <input type="email" name="e" / placeholder="Enter your email" required /> </td>
+                           <td> <b> Email  <span style="color:red"> * </span> </b> </td>
+                           <td> <input type="email" name="e" / placeholder="Enter your email"  /> </td>
                        </tr>
                        <tr>
                            <td colspan="2" align="center">
-                               <input type="submit" name="save" value="Register" />
+                           <input type="submit" name="save" value="Register" onclick="submitForm()" id="btn" />
                                <input type="reset" value="Reset" />
                            </td>
                        </tr>
@@ -201,6 +214,66 @@
                <div id="actorDetails"></div>
            </section>
            <?php include 'Footer.php'; ?>
+           
+           
+           
+           
+           
+           <script>
+            document.getElementById("btn").addEventListener('click',function(event){
+                event.preventDefault()
+            });
+
+
+
+            function submitForm(){
+                var xmlhttp;
+                if(window.XMLHttpRequest){
+                    xmlhttp = new XMLHttpRequest();
+                }else if (window.ActiveXObject){
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.open("POST","DB_Ops.php",true);
+                            xmlhttp.onreadystatechange = function(){
+                if (this.readyState === 4 && this.status === 200) {
+                    var displaymsg = document.getElementsByClassName('form-message')[0];
+                    displaymsg.style.display = "block";
+                    if (this.responseText.includes("Registration Success")) {
+                        displaymsg.style.backgroundColor = "rgb(182, 237, 185)"; 
+                        displaymsg.style.color = " #16281c";
+                        displaymsg.style.border = "1px solid #000000";
+                        displaymsg.innerHTML = this.responseText;
+                        displaymsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        document.getElementById('form').reset();
+
+                         
+                    } else {
+                        displaymsg.style.backgroundColor = "#f474747d"; 
+                    }
+                    displaymsg.innerHTML = this.responseText;
+                    displaymsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+                var form = document.getElementById('form');
+                var formdata = new FormData(form);
+                xmlhttp.send(formdata);
+            }
+
+           </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
            <script>
                document.getElementById('checkActors').addEventListener('click', function() {
                    var birthdate = document.getElementsByName('birthdate')[0].value;
@@ -219,7 +292,7 @@
                        };
                        xhr.send('birthdate=' + birthdate);
                    } else {
-                       console.error('Birthdate is required.');
+                       console.error('Birthdate is .');
                    }
                });
            </script>
