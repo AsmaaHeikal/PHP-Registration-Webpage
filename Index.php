@@ -184,7 +184,7 @@
                            <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number"  /> </td>
                        </tr>
                        <tr>
-                           <td> <b> Address </b> </td>
+                           <td> <b> Address <span style="color:red"> * </span> </b> </td>
                            <td> <textarea name="add" placeholder="Enter your address" ></textarea> </td>
                        </tr>
                        <tr>
@@ -196,7 +196,7 @@
                            <td> <input type="password" name="cp" / placeholder=" Confirm password" > </td>
                        </tr>
                        <tr>
-                           <td> <b> Profile Picture </b> </td>
+                           <td> <b> Profile Picture<span style="color:red"> * </span> </b> </td>
                            <td> <input type="file" name="pic"  /> </td>
                            <!-- <td>
                                <p class="error pic-error">
@@ -236,8 +236,11 @@
             var password = document.getElementsByName('p')[0].value;
             var confirmPassword = document.getElementsByName('cp')[0].value;
             var email = document.getElementsByName('e')[0].value;
+            var Profile_Picture = document.getElementsByName('pic')[0].value;
+            var Address = document.getElementsByName('add')[0].value;
 
-            if (fullName.trim() === '' || username.trim() === '' || birthdate.trim() === '' || phoneNumber.trim() === '' || password.trim() === '' || confirmPassword.trim() === '' || email.trim() === '') {
+            if (fullName.trim() === '' || username.trim() === '' || birthdate.trim() === '' || phoneNumber.trim() === '' || password.trim() === '' || confirmPassword.trim() === '' || email.trim() === ''
+            || Profile_Picture.trim() === '' || Address.trim() === '') {
                 displaymsg.innerHTML += "- Please enter all required fields<br>";
                 isValid = false;
             } else{
