@@ -54,42 +54,48 @@ $conn = $DB->connect();
 
 $msg = "";
 
-// Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $full_name = $_POST['n'];
-    $username = $_POST['u'];
-    $birthdate = $_POST['birthdate'];
-    $phone_number = $_POST['m'];
-    $address = $_POST['add'];
-    $password = $_POST['p'];
-    $email = $_POST['e'];
 
-    // Check if the username already exists
-    $check_query = "SELECT * FROM users WHERE user_name = '$username'";
-    $result = mysqli_query($conn, $check_query);
+    $Full_Name = mysqli_real_escape_string($conn, $_POST['n']);
+    $username = mysqli_real_escape_string($conn, $_POST['u']);
+    $Birthdate = mysqli_real_escape_string($conn, $_POST['birthdate']);
+    $Phone_Number = mysqli_real_escape_string($conn, $_POST['m']);
+    $Password = mysqli_real_escape_string($conn, $_POST['p']);
+    $Confirm_Password = mysqli_real_escape_string($conn, $_POST['cp']);
+    $Email = mysqli_real_escape_string($conn, $_POST['e']);
 
-    // The username already exists
-    if (mysqli_num_rows($result) > 0) {
-        $msg = "Username already exists! Please choose another username.";
-        echo "<script>alert('$msg');</script>";
-    }
+    $targetDirectory = "uploads/"; 
+    $targetFile = $targetDirectory . basename($_FILES["pic"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
-    // The username doesn't exist
-    else {
-        if ($pic_error === null) {
-            $user = new User($full_name, $username, $birthdate, $phone_number, $address, $password, $email, $fileNameNew);
-
-            // Insert user data into the database
-            $insert_query = "INSERT INTO users (full_name, user_name, password, phone, address, birthdate, email, img_Name)
-            VALUES ('$user->full_name', '$user->username', '$user->password', '$user->phone_number', '$user->address', '$user->birthdate', '$user->email', '$user->img_Name')";
-
-            if (mysqli_query($conn, $insert_query)) {
-                $msg = "Registration successful!";
-                echo "<script>alert('$msg');</script>";
+    if (empty($Full_Name) || empty($username) || empty($Birthdate) || empty($Phone_Number) || empty($Password) || empty($Confirm_Password) || empty($Email)) {
+        echo "- Please enter all required fields";
+    } else {
+        
+        $check_username_query = "SELECT * FROM users WHERE username = '$username'";
+        $check_email_query = "SELECT * FROM users WHERE email = '$Email'";
+        $result_username = mysqli_query($conn, $check_username_query);
+        $result_email = mysqli_query($conn, $check_email_query);
+        
+        if (mysqli_num_rows($result_username) > 0) {
+            echo "Username already exists! Please choose another username.";
+        } elseif (mysqli_num_rows($result_email) > 0) {
+            echo "Email already exists! Please choose another email address.";
+        } else {
+            $hash = password_hash($Password, PASSWORD_DEFAULT);
+            $query = "INSERT INTO users (full_name, username, birthdate, phone_number, password, email, profile_picture) 
+            VALUES ('$Full_Name', '$username', '$Birthdate', '$Phone_Number', '$Password', '$Email', '$targetFile')";
+            $res = mysqli_query($conn, $query);
+            
+            if ($res) {
+                echo "Registration Success";
             } else {
-                $msg = "Error: " . $insert_query . "<br>" . mysqli_error($conn);
-                echo $msg;
+                echo "Error inserting data: " . mysqli_error($conn);
             }
         }
     }
 }
+
+
+?>

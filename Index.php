@@ -124,6 +124,16 @@
                    background-color: #fde8ec;
                    display: none;
                }
+               form-message {
+                display: none; 
+                background-color: #ffcccc; 
+                color: #990000; 
+                padding: 10px; 
+                border-radius: 5px; 
+                margin-top: 10px; 
+                border: 1px solid #ff3333; 
+                box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
+            }
            </style>
            <?php
             if ($pic_error != null) {
@@ -143,49 +153,51 @@
                <div class="title">
                    <h1> Registration Form </h1>
                </div>
-               <form method="post" enctype="multipart/form-data" >
+               <form method="post" enctype="multipart/form-data" id="form">
                    <table>
                        <tr>
                            <td colspan="2"> <?php echo @$msg; ?> </td>
+                           <div class="form-message" ></div>
                        </tr>
+                       <div class="form-message" ></div>
                        <tr>
-                           <td width="159"> <b> Full Name </b> </td>
+                           <td width="159"> <b> Full Name <span style="color:red"> * </span></b> </td>
                            <td width="218">
-                               <input type="text" placeholder="Enter your full name" name="n" pattern="[a-z A-Z]*" required />
+                               <input type="text" placeholder="Enter your full name" name="n" pattern="[a-z A-Z]*"  />
                            </td>
                        </tr>
                        <tr>
-                           <td width="159"> <b> Username </b> </td>
+                           <td width="159"> <b> Username<span style="color:red"> * </span> </b> </td>
                            <td width="218">
-                               <input type="text" placeholder="Enter your username" name="u" pattern="[a-z A-Z]*" required />
+                               <input type="text" placeholder="Enter your username" name="u" pattern="[a-z A-Z]*"  />
                            </td>
                        </tr>
                        <tr>
-                           <td> <b> Birthdate </b> </td>
+                           <td> <b> Birthdate <span style="color:red"> * </span></b> </td>
                            <td>
-                               <input type="date" name="birthdate" min='1899-01-01' max='2005-12-31' required />
+                               <input type="date" name="birthdate" min='1899-01-01' max='2005-12-31'  />
                                <button type="button" id="checkActors">check</button>
                            </td>
                        </tr>
                        <tr>
-                           <td> <b> Phone Number </b> </td>
-                           <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number" required /> </td>
+                           <td> <b> Phone Number <span style="color:red"> * </span></b> </td>
+                           <td> <input type="text" pattern="[0-9]*" name="m" / placeholder=" Enter your phone number"  /> </td>
                        </tr>
                        <tr>
                            <td> <b> Address </b> </td>
-                           <td> <textarea name="add" placeholder="Enter your address" required></textarea> </td>
+                           <td> <textarea name="add" placeholder="Enter your address" ></textarea> </td>
                        </tr>
                        <tr>
-                           <td> <b> Password </b> </td>
-                           <td> <input type="password" name="p" / placeholder=" Enter password" required> </td>
+                           <td> <b> Password <span style="color:red"> * </span></b> </td>
+                           <td> <input type="password" name="p" / placeholder=" Enter password" > </td>
                        </tr>
                        <tr>
-                           <td> <b> Confirm Password </b> </td>
-                           <td> <input type="password" name="p" / placeholder=" Confirm password" required> </td>
+                           <td> <b> Confirm Password <span style="color:red"> * </span></b> </td>
+                           <td> <input type="password" name="cp" / placeholder=" Confirm password" > </td>
                        </tr>
                        <tr>
                            <td> <b> Profile Picture </b> </td>
-                           <td> <input type="file" name="pic" required /> </td>
+                           <td> <input type="file" name="pic"  /> </td>
                            <!-- <td>
                                <p class="error pic-error">
                                    <?php echo $pic_error ?>
@@ -193,12 +205,12 @@
                            </td> -->
                        </tr>
                        <tr>
-                           <td> <b> Email </b> </td>
-                           <td> <input type="email" name="e" / placeholder="Enter your email" required /> </td>
+                           <td> <b> Email<span style="color:red"> * </span> </b> </td>
+                           <td> <input type="email" name="e" / placeholder="Enter your email"  /> </td>
                        </tr>
                        <tr>
                            <td colspan="2" align="center">
-                               <input type="submit" name="save" value="Register" />
+                               <input type="submit" name="save" value="Register" onclick="submitForm()" id="btn" />
                                <input type="reset" value="Reset" />
                            </td>
                        </tr>
@@ -207,6 +219,97 @@
                <div id="actorDetails"></div>
            </section>
            <?php include 'Footer.php'; ?>
+           <script>
+           document.getElementById("btn").addEventListener('click', function(event) {
+            event.preventDefault();
+            submitForm();
+        });
+        function submitForm() {
+            var isValid = true;
+            var displaymsg = document.getElementsByClassName('form-message')[0];
+            displaymsg.innerHTML = ''; 
+
+            var fullName = document.getElementsByName('n')[0].value;
+            var username = document.getElementsByName('u')[0].value;
+            var birthdate = document.getElementsByName('birthdate')[0].value;
+            var phoneNumber = document.getElementsByName('m')[0].value;
+            var password = document.getElementsByName('p')[0].value;
+            var confirmPassword = document.getElementsByName('cp')[0].value;
+            var email = document.getElementsByName('e')[0].value;
+
+            if (fullName.trim() === '' || username.trim() === '' || birthdate.trim() === '' || phoneNumber.trim() === '' || password.trim() === '' || confirmPassword.trim() === '' || email.trim() === '') {
+                displaymsg.innerHTML += "- Please enter all required fields<br>";
+                isValid = false;
+            } else{
+            if (!/^[a-zA-Z ]*$/.test(fullName)) {
+                displaymsg.innerHTML += "- Full Name should contain only characters<br>";
+                isValid = false;
+            }
+
+            var birthdateDateTime = new Date(birthdate);
+            var minBirthdate = new Date('1899-01-01');
+            var maxBirthdate = new Date('2005-12-31');
+            if (isNaN(birthdateDateTime) || birthdateDateTime < minBirthdate || birthdateDateTime > maxBirthdate) {
+                displaymsg.innerHTML += "- Enter a valid birthdate between 1899-01-01 and 2005-12-31.<br>";
+                isValid = false;
+            }
+
+            if (!/^\d{10}$/.test(phoneNumber)) {
+                displaymsg.innerHTML += "- Phone number must consist of exactly 10 digits.<br>";
+                isValid = false;
+            }
+
+            if (password !== confirmPassword) {
+                displaymsg.innerHTML += "- Passwords do not match.<br>";
+                isValid = false;
+            }else if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
+                displaymsg.innerHTML += "- Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.<br>";
+                isValid = false;
+            }
+
+            if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                displaymsg.innerHTML += "- Invalid email format<br>";
+                isValid = false;
+            }
+            }
+
+            if (!isValid) {
+                displaymsg.style.backgroundColor = "#f474747d";
+                displaymsg.style.color = "#ffffff";
+                displaymsg.style.border = "1px solid #000000";
+                displaymsg.style.display = "block";
+                displaymsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return;
+            }
+
+            var xmlhttp;
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.open("POST", "DB_Ops.php", true);
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState === 4 && this.status === 200) {
+                    if (this.responseText.includes("Registration Success")) {
+                        displaymsg.style.backgroundColor = "rgb(182, 237, 185)";
+                        displaymsg.style.color = " #16281c";
+                        displaymsg.style.border = "1px solid #000000";
+                    } else {
+                        displaymsg.style.backgroundColor = "#f474747d";
+                        displaymsg.style.color = "#ffffff";
+                        displaymsg.style.border = "1px solid #000000";
+                    }
+                    displaymsg.innerHTML = this.responseText;
+                    displaymsg.style.display = "block";
+                    displaymsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            };
+            var form = document.getElementById('form');
+            var formdata = new FormData(form);
+            xmlhttp.send(formdata);
+        }
+        </script>
            <script>
                document.getElementById('checkActors').addEventListener('click', function() {
                    var birthdate = document.getElementsByName('birthdate')[0].value;
