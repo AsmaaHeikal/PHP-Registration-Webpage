@@ -249,6 +249,15 @@
                 isValid = false;
                 }
 
+                var fileInput = document.getElementsByName('pic')[0];
+                var file = fileInput.files[0];
+                var fileType = file.type.toLowerCase();
+                var allowedExts = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+                if (!allowedExts.includes(fileType)) {
+                    displaymsg.innerHTML += "- Profile Picture must be an image (jpg, jpeg, png, gif).<br>";
+                    isValid = false;
+                }
+
                 var birthdateDateTime = new Date(birthdate);
                 var minBirthdate = new Date('1899-01-01');
                 var maxBirthdate = new Date('2005-12-31');
