@@ -79,9 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // The username already exists
             if (mysqli_num_rows($result_username) > 0) {
                 echo "Username already exists! Please choose another username.";
-            } elseif (mysqli_num_rows($result_email) > 0) {
-                echo "Email already exists! Please choose another email address.";
-            }
+            } 
 
             // The username doesn't exist
             else {

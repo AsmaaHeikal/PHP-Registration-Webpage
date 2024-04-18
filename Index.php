@@ -274,9 +274,9 @@
                 if (password !== confirmPassword) {
                 displaymsg.innerHTML += "- Passwords do not match.<br>";
                 isValid = false;
-                } else if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password)) {
-                displaymsg.innerHTML += "- Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one digit.<br>";
-                isValid = false;
+                } else if (password.length < 8 || !/[A-Z]/.test(password) || !/[a-z]/.test(password) || !/\d/.test(password) || !/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password)) {
+                    displaymsg.innerHTML += "- Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character.<br>";
+                    isValid = false;
                 }
 
                 if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
