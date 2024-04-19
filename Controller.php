@@ -1,7 +1,6 @@
 <?php
 
 include 'DB_Ops.php';
-include 'upload.php';
 
 $DB = new DBModel();
 $conn = $DB->connect();
@@ -32,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // }
 
     else {
+        include 'Upload.php';
         if ($pic_error === null) {
             $user = new User($full_name, $username, $birthdate, $phone_number, $address, $password, $email, $fileNameNew);
 
