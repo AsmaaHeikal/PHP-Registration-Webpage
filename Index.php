@@ -134,15 +134,6 @@
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
             }
            </style>
-           <?php
-            if ($pic_error != null) {
-            ?> <style>
-                   .pic-error {
-                       display: block
-                   }
-               </style> <?php
-                    }
-                        ?>
        </head>
 
        <body>
