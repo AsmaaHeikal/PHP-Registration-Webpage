@@ -21,14 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if the username and email already exists
 
     $result_username = $DB-> checkUsername($conn, $username);
-    // $result_email = $DB-> checkUsername($conn, $email);
+    $result_email = $DB-> checkEmail($conn, $email);
 
     if ( $result_username > 0) {
         echo "Username already exists! Please choose another username.";
     } 
-    // elseif ($result_email > 0) {
-    //     echo "Email already exists! Please choose another email address.";
-    // }
+    elseif ($result_email > 0) {
+        echo "Email already exists! Please choose another email address.";
+    }
 
     else {
         include 'Upload.php';
@@ -45,3 +45,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 }
+// Close the connection
+$DB->close($conn);
