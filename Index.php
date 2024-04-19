@@ -1,6 +1,5 @@
    <?php
-    include 'DB_Ops.php';
-    include 'Upload.php';
+    include 'Controller.php';
     ?>
    <! Doctype html>
        <html lang="en">
@@ -306,7 +305,7 @@
             } else if (window.ActiveXObject) {
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
-            xmlhttp.open("POST", "DB_Ops.php", true);
+            xmlhttp.open("POST", "Controller.php", true);
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
                 if (this.responseText.includes("Registration Success")) {
