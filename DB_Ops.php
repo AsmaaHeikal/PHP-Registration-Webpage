@@ -71,7 +71,3 @@ class DBModel
     }
 }
 
-// $targetDirectory = "uploads/"; 
-// $targetFile = $targetDirectory . basename($_FILES["pic"]["name"]);
-// $uploadOk = 1;
-// $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
