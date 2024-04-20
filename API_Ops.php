@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 function extractId($str)
 {
     $str = trim($str, '/');
@@ -20,6 +22,9 @@ function getActorDetails($actorId)
     // Initialize cURL session
     $curl = curl_init();
 
+    $api_host = "imdb8.p.rapidapi.com";
+    $api_key = "d241b27257mshaa170cef6564df3p186393jsne82ab4ebb08f";
+
     // Set the cURL options
     curl_setopt_array($curl, [
         CURLOPT_URL => $url . '?' . http_build_query($params),
@@ -30,8 +35,8 @@ function getActorDetails($actorId)
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => [
-            "X-RapidAPI-Host: ",
-            "X-RapidAPI-Key: "
+            "X-RapidAPI-Host: " . $api_host,
+            "X-RapidAPI-Key: " . $api_key
         ],
     ]);
 
@@ -52,11 +57,11 @@ function getActorDetails($actorId)
     curl_close($curl);
 }
 
-
 // Check if the form is submitted
 if (isset($_POST['birthdate'])) {
     // Retrieve birthdate from the form
     $birthdate = $_POST['birthdate'];
+    $_SESSION['birthdate'] = $birthdate;
 
     // IMDb API endpoint URL
     $url = 'https://imdb8.p.rapidapi.com/actors/list-born-today';
@@ -70,6 +75,10 @@ if (isset($_POST['birthdate'])) {
     // Initialize cURL session
     $curl = curl_init();
 
+    $api_host = "imdb8.p.rapidapi.com";
+    $api_key = "d241b27257mshaa170cef6564df3p186393jsne82ab4ebb08f";
+
+
     // Set the cURL options
     curl_setopt_array($curl, [
         CURLOPT_URL => $url . '?' . http_build_query($params),
@@ -80,8 +89,8 @@ if (isset($_POST['birthdate'])) {
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => "GET",
         CURLOPT_HTTPHEADER => [
-            "X-RapidAPI-Host: ",
-            "X-RapidAPI-Key: "
+            "X-RapidAPI-Host: " . $api_host,
+            "X-RapidAPI-Key: " . $api_key
         ],
     ]);
     // Execute the request and fetch the response
@@ -94,20 +103,19 @@ if (isset($_POST['birthdate'])) {
         // Decode the JSON response
         $data = json_decode($response, true);
 
-        // Display the names of actors born on the same day
-        echo '<h2>Actors Born on ' . date('F j, Y', strtotime($birthdate)) . '</h2>';
+        $actorsNamesArray = [];
+
+        // Add actors names in actorsNamesArray 
+
         if (!empty($data)) {
-            echo '<ul>';
             foreach ($data as $actorId) {
                 $actorDetails = getActorDetails(extractId($actorId));
                 if ($actorDetails !== null) {
-                    echo '<li>' . $actorDetails['name'] . '</li>';
+                    array_push($actorsNamesArray, $actorDetails['name']);
                 }
             }
-            echo '</ul>';
-        } else {
-            echo '<p>No actors found.</p>';
         }
+        $_SESSION['actorsNamesArray'] = $actorsNamesArray;
     }
 
     // Close cURL session
