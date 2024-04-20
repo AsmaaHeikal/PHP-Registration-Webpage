@@ -281,9 +281,7 @@
                    }
 
                    if (!isValid) {
-                       displaymsg.style.backgroundColor = "#f474747d";
-                       displaymsg.style.color = "#ffffff";
-                       displaymsg.style.border = "1px solid #000000";
+                       displaymsg.style.color = "red";
                        displaymsg.style.display = "block";
                        displaymsg.scrollIntoView({
                            behavior: 'smooth',
@@ -308,14 +306,10 @@
                    xmlhttp.onreadystatechange = function() {
                        if (this.readyState === 4 && this.status === 200) {
                            if (this.responseText.includes("Registration Success")) {
-                               displaymsg.style.backgroundColor = "rgb(182, 237, 185)";
-                               displaymsg.style.color = " #16281c";
-                               displaymsg.style.border = "1px solid #000000";
+                               displaymsg.style.color = "green";
                                document.getElementById('form').reset();
                            } else {
-                               displaymsg.style.backgroundColor = "#f474747d";
-                               displaymsg.style.color = "#ffffff";
-                               displaymsg.style.border = "1px solid #000000";
+                               displaymsg.style.color = "red";
                            }
                            displaymsg.innerHTML = this.responseText;
                            displaymsg.style.display = "block";
