@@ -1,6 +1,5 @@
    <?php
-    include 'DB_Ops.php';
-    include 'Upload.php';
+    include 'Controller.php';
     ?>
    <! Doctype html>
        <html lang="en">
@@ -135,15 +134,6 @@
                 box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); 
             }
            </style>
-           <?php
-            if ($pic_error != null) {
-            ?> <style>
-                   .pic-error {
-                       display: block
-                   }
-               </style> <?php
-                    }
-                        ?>
        </head>
 
        <body>
@@ -306,7 +296,7 @@
             } else if (window.ActiveXObject) {
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
-            xmlhttp.open("POST", "DB_Ops.php", true);
+            xmlhttp.open("POST", "Controller.php", true);
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState === 4 && this.status === 200) {
                 if (this.responseText.includes("Registration Success")) {
