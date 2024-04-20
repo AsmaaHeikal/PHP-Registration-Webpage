@@ -256,8 +256,8 @@
                 isValid = false;
                 }
 
-                if (!/^\d{10}$/.test(phoneNumber)) {
-                displaymsg.innerHTML += "- Phone number must consist of exactly 10 digits.<br>";
+                if (!/^\d{11}$/.test(phoneNumber)) {
+                displaymsg.innerHTML += "- Phone number must consist of exactly 11 digits.<br>";
                 isValid = false;
                 }
 

@@ -16,7 +16,7 @@
 
 
         header nav {
-            margin-left: 700px;
+            margin-left: 750px;
         }
         header h1, header nav {
             display: inline-block; /* Set both h1 and nav to inline-block */
