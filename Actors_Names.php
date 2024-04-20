@@ -48,8 +48,7 @@
         }
 
         p {
-            color: #888;
-            font-style: italic;
+            color: #222;
             text-align: center;
         }
 
