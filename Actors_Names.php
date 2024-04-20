@@ -17,7 +17,7 @@
 
         .container {
             max-width: 800px;
-            margin: 70px auto;
+            margin: 50px auto;
             padding: 20px;
             background-color: #EEEEEE;
             border-radius: 30px;
@@ -43,12 +43,8 @@
             margin-bottom: 10px;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 20px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-        }
-
-        li:hover {
-            background-color: #f0f0f0;
         }
 
         p {
